@@ -81,7 +81,7 @@ export function SkillsSection() {
   };
 
   return (
-    <section id="skills" className="py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+    <section id="skills" className="py-24 bg-transparent relative overflow-hidden">
       {/* Subtle Background Elements */}
       <motion.div
         animate={{ x: [0, 40, 0], y: [0, -20, 0] }}

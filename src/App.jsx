@@ -8,6 +8,7 @@ import { TimelineSection } from "./components/sections/timeline";
 import { Navbar } from "./components/navbar";
 import { ChatWidget } from "./components/chatbot/chat-widget";
 import { LoadingScreen } from "./components/loading";
+import { Background } from "./components/background";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -23,9 +24,11 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative min-h-screen selection:bg-violet-200"
           >
+            <Background />
             <Navbar />
-            <main className="min-h-screen selection:bg-violet-200">
+            <main>
               <HeroSection />
               <AboutSection />
               <SkillsSection />

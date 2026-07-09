@@ -24,7 +24,7 @@ export function ProjectsSection() {
   ];
 
   return (
-    <section id="projects" className="py-24 bg-slate-50 relative overflow-hidden">
+    <section id="projects" className="py-24 bg-transparent relative overflow-hidden">
       <motion.div
         animate={{ x: [0, -30, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}

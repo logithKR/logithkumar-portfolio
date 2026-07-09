@@ -6,7 +6,7 @@ import { User2, MapPin, Mail, Phone } from "lucide-react";
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-24 bg-white relative overflow-hidden">
+    <section id="about" className="py-24 bg-transparent relative overflow-hidden">
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}

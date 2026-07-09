@@ -19,25 +19,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20 pb-16">
-      {/* Gradient mesh background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-white to-indigo-50" />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-violet-200/40 rounded-full blur-[100px]"
-        />
-        <motion.div
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-indigo-200/40 rounded-full blur-[100px]"
-        />
-        <motion.div
-          animate={{ y: [0, -20, 0], x: [0, 15, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[40%] right-[30%] w-[300px] h-[300px] bg-pink-100/30 rounded-full blur-[80px]"
-        />
-      </div>
+      {/* Background is now handled globally in App.jsx */}
 
       <motion.div
         variants={stagger}

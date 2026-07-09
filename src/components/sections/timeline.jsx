@@ -6,7 +6,7 @@ import { GraduationCap, Trophy, Award, Calendar } from "lucide-react";
 
 export function TimelineSection() {
   return (
-    <section id="experience" className="py-24 bg-white relative overflow-hidden">
+    <section id="experience" className="py-24 bg-transparent relative overflow-hidden">
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
