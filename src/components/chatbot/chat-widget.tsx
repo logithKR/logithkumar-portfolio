@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState, useRef, useEffect } from "react";
 // @ts-ignore
@@ -13,7 +13,7 @@ export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   // @ts-ignore
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: "/api/chat",
+    api: "http://localhost:3001/api/chat",
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
