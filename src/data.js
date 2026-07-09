@@ -74,8 +74,20 @@ export const educationData = [
 ];
 
 export const certificationsData = [
-  "AI Fundamentals with IBM SkillsBuild — Cisco Networking Academy, IBM",
-  "Programming, Data Structures and Algorithms using Python — NPTEL"
+  {
+    title: "AI Fundamentals",
+    issuer: "IBM SkillsBuild & Cisco Networking Academy",
+    date: "2023",
+    description: "A comprehensive certification covering the core concepts of Artificial Intelligence, machine learning models, and ethical considerations in AI deployment.",
+    file: "/certificates/ibm-ai.pdf"
+  },
+  {
+    title: "Programming, Data Structures and Algorithms using Python",
+    issuer: "NPTEL",
+    date: "2023",
+    description: "In-depth coursework on core data structures, algorithmic design techniques, and advanced Python programming methodologies.",
+    file: "/certificates/nptel-python.pdf"
+  }
 ];
 
 export const achievementsData = [

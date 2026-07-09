@@ -149,10 +149,6 @@ export function SkillsSection() {
         {/* Skill Cards Grid */}
         <motion.div 
           layout
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-6xl mx-auto text-left"
         >
           <AnimatePresence mode="popLayout">
@@ -161,7 +157,11 @@ export function SkillsSection() {
               return (
                 <motion.div
                   layout
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 24, delay: (index % 10) * 0.05 }}
                   key={skill}
                   whileHover={{ y: -6 }}
                   className={`group relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:border-slate-200 z-10 hover:z-20`}
@@ -182,7 +182,7 @@ export function SkillsSection() {
                         initial={{ width: 0 }}
                         whileInView={{ width: `${getSkillLevel(skill)}%` }}
                         viewport={{ once: true }}
-                        transition={{ duration: 1.2, delay: 0.3 + index * 0.05, ease: "easeOut" }}
+                        transition={{ duration: 1.2, delay: 0.3 + (index % 10) * 0.05, ease: "easeOut" }}
                         className={`h-full bg-gradient-to-r ${colors.bar} rounded-full`}
                       />
                     </div>

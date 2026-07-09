@@ -1,10 +1,14 @@
 
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { educationData, achievementsData, certificationsData } from "@/data";
 import { GraduationCap, Trophy, Award, Calendar } from "lucide-react";
+import { CertificateModal } from "../ui/certificate-modal";
 
 export function TimelineSection() {
+  const [selectedCert, setSelectedCert] = useState(null);
+
   return (
     <section id="experience" className="py-24 bg-transparent relative overflow-hidden">
       <motion.div
@@ -138,15 +142,17 @@ export function TimelineSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
-                    whileHover={{ x: 4 }}
-                    className="bg-white border border-slate-100 rounded-xl p-4 flex items-start gap-3 shadow-sm hover:shadow-md hover:border-purple-200 transition-all duration-300 cursor-default"
+                    whileHover={{ x: 4, scale: 1.02 }}
+                    onClick={() => setSelectedCert(cert)}
+                    className="bg-white border border-slate-100 rounded-xl p-4 flex items-center gap-4 shadow-sm hover:shadow-md hover:border-violet-300 transition-all duration-300 cursor-pointer group"
                   >
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: idx * 0.5 }}
-                      className="mt-1 w-2.5 h-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 shrink-0"
-                    />
-                    <p className="text-sm font-medium text-slate-700">{cert}</p>
+                    <div className="w-10 h-10 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 group-hover:bg-violet-600 group-hover:text-white transition-colors">
+                      <Award size={20} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-800 group-hover:text-violet-700 transition-colors line-clamp-1">{cert.title}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{cert.issuer}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -154,6 +160,8 @@ export function TimelineSection() {
           </motion.div>
         </div>
       </div>
+      
+      <CertificateModal certificate={selectedCert} onClose={() => setSelectedCert(null)} />
     </section>
   );
 }
