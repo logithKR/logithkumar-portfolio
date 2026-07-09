@@ -57,19 +57,27 @@ export function CertificateModal({ certificate, onClose }) {
                 className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-6 py-4 rounded-xl font-semibold transition-colors shadow-lg shadow-violet-200"
               >
                 <Download size={18} />
-                Download PDF
+                {certificate.isImage ? "Download Image" : "Download PDF"}
               </a>
             </div>
           </div>
 
-          {/* Right Side: PDF Preview */}
-          <div className="w-full md:w-2/3 h-[50vh] md:h-full bg-slate-200 flex items-center justify-center p-4">
-            <div className="w-full h-full rounded-xl overflow-hidden shadow-inner bg-white flex flex-col items-center justify-center">
-              <iframe 
-                src={`${certificate.file}#toolbar=0&view=FitH`} 
-                className="w-full h-full border-none"
-                title={certificate.title}
-              />
+          {/* Right Side: Preview */}
+          <div className="w-full md:w-2/3 h-[50vh] md:h-full bg-slate-200 flex items-center justify-center p-4 overflow-hidden">
+            <div className="w-full h-full rounded-xl overflow-hidden shadow-inner bg-white flex items-center justify-center relative">
+              {certificate.isImage ? (
+                <img 
+                  src={certificate.file} 
+                  alt={certificate.title}
+                  className={`max-w-full max-h-full object-contain ${certificate.forceLandscape ? "-rotate-90 scale-[1.3] md:scale-[1.1]" : ""}`}
+                />
+              ) : (
+                <iframe 
+                  src={`${certificate.file}#toolbar=0&view=FitH`} 
+                  className="w-full h-full border-none"
+                  title={certificate.title}
+                />
+              )}
             </div>
           </div>
         </motion.div>

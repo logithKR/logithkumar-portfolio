@@ -8,7 +8,7 @@ export const profileData = {
   phone: "+91 9443696189",
   location: "Tamil Nadu, India",
   github: "https://github.com/logithKR",
-  linkedin: "https://linkedin.com/in/LOGITHKUMAR K R",
+  linkedin: "https://linkedin.com/in/LOGITHKUMAR%20K%20R",
   leetcode: "https://leetcode.com/u/user8930hC/",
 };
 
@@ -87,6 +87,15 @@ export const certificationsData = [
     date: "2023",
     description: "In-depth coursework on core data structures, algorithmic design techniques, and advanced Python programming methodologies.",
     file: "/certificates/nptel-python.pdf"
+  },
+  {
+    title: "Intellimobility Driving Safe Mobility",
+    issuer: "Automotive Research Association of India (ARAI)",
+    date: "October 2024",
+    description: "Certificate of Participation for the Driving Safe Mobility Ideathon. Selected among the Top 7 teams for presenting an AI-based pedestrian detection and smart safety system.",
+    file: "/certificates/arai-intellimobility.jpg",
+    isImage: true,
+    forceLandscape: true
   }
 ];
 
@@ -94,9 +103,5 @@ export const achievementsData = [
   {
     title: "Reliance Foundation Undergraduate Scholar 2023",
     description: "Awarded the Reliance Foundation Undergraduate Scholarship for academic excellence, selected as one of 5,000 scholars across India."
-  },
-  {
-    title: "Selected among the Top 7 teams in iNTELLIMOBILITY",
-    description: "Driving Safe Mobility Ideathon conducted by Automotive Research Association of India (ARAI), Pune, for presenting an AI-based pedestrian detection and smart safety system."
   }
 ];
