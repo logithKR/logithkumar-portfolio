@@ -6,16 +6,18 @@ import { TimelineSection } from "@/components/sections/timeline";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+    <main className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-200">
       <HeroSection />
       <AboutSection />
       <SkillsSection />
       <ProjectsSection />
       <TimelineSection />
-      
-      {/* Simple Footer */}
-      <footer className="py-8 text-center text-muted-foreground border-t border-white/5 mt-20">
-        <p>© {new Date().getFullYear()} LOGITHKUMAR K R. Built with Next.js & Tailwind CSS.</p>
+
+      {/* Footer */}
+      <footer className="py-10 text-center bg-white border-t border-slate-100">
+        <p className="text-slate-500 text-sm">
+          © {new Date().getFullYear()} LOGITHKUMAR K R. Built with Next.js & Tailwind CSS.
+        </p>
       </footer>
     </main>
   );
