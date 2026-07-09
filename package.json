@@ -13,6 +13,7 @@
   "dependencies": {
     "@ai-sdk/google": "^1.0.0",
     "@ai-sdk/react": "^4.0.19",
+    "@base-ui/react": "^1.6.0",
     "@opentelemetry/api": "^1.9.1",
     "ai": "^4.0.0",
     "class-variance-authority": "^0.7.1",
