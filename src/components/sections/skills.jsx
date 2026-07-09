@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { skillsData } from "@/data";
 import { 
-  SiPython, SiJavascript, SiReact, SiVite, SiTailwindcss, SiHtml5, SiCss3,
+  SiPython, SiJavascript, SiReact, SiVite, SiTailwindcss, SiHtml5, SiCss,
   SiFastapi, SiFlask, SiNodedotjs, SiExpress, SiSqlite, SiFirebase, SiRedis,
   SiGit, SiGithub, SiJsonwebtokens, SiSocketdotio
 } from "react-icons/si";
@@ -12,10 +12,10 @@ const iconMap = {
   "Python": <SiPython className="w-8 h-8" color="#3776AB" />,
   "JavaScript": <SiJavascript className="w-8 h-8" color="#F7DF1E" />,
   "SQL": <FaDatabase className="w-8 h-8" color="#4479A1" />,
-  "React (Vite)": <div className="flex gap-1"><SiReact className="w-8 h-8" color="#61DAFB" /><SiVite className="w-8 h-8" color="#646CFF" /></div>,
+  "React (Vite)": <div className="flex gap-1 items-center"><SiReact className="w-6 h-6" color="#61DAFB" /><span className="text-slate-300 mx-0.5">/</span><SiVite className="w-6 h-6" color="#646CFF" /></div>,
   "Tailwind CSS": <SiTailwindcss className="w-8 h-8" color="#06B6D4" />,
   "HTML": <SiHtml5 className="w-8 h-8" color="#E34F26" />,
-  "CSS": <SiCss3 className="w-8 h-8" color="#1572B6" />,
+  "CSS": <SiCss className="w-8 h-8" color="#1572B6" />,
   "FastAPI": <SiFastapi className="w-8 h-8" color="#009688" />,
   "Flask": <SiFlask className="w-8 h-8" color="#000000" />,
   "Node.js": <SiNodedotjs className="w-8 h-8" color="#339933" />,
@@ -39,31 +39,19 @@ const iconMap = {
   "Socket.io": <SiSocketdotio className="w-8 h-8" color="#010101" />,
 };
 
-// Generates random float animations
-const getRandomFloat = (index) => {
-  const randomX = Math.random() * 40 - 20;
-  const randomY = Math.random() * 40 - 20;
-  const randomRotate = Math.random() * 30 - 15;
-  const duration = 4 + Math.random() * 4;
-  
-  return {
-    y: [0, randomY, 0],
-    x: [0, randomX, 0],
-    rotate: [0, randomRotate, 0],
-    transition: {
-      duration: duration,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: index * 0.2,
-    }
-  };
-};
+const colorSets = [
+  { bg: "bg-violet-50/50", text: "text-violet-600", bar: "from-violet-500 to-purple-500", glow: "group-hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]" },
+  { bg: "bg-indigo-50/50", text: "text-indigo-600", bar: "from-indigo-500 to-blue-500", glow: "group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]" },
+  { bg: "bg-blue-50/50", text: "text-blue-600", bar: "from-blue-500 to-cyan-500", glow: "group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]" },
+  { bg: "bg-purple-50/50", text: "text-purple-600", bar: "from-purple-500 to-pink-500", glow: "group-hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]" },
+  { bg: "bg-emerald-50/50", text: "text-emerald-600", bar: "from-emerald-500 to-teal-500", glow: "group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]" },
+  { bg: "bg-amber-50/50", text: "text-amber-600", bar: "from-amber-500 to-orange-500", glow: "group-hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]" },
+];
 
 export function SkillsSection() {
   const [activeCategory, setActiveCategory] = useState("All");
   const categories = ["All", ...skillsData.map((c) => c.category)];
   const allSkills = skillsData.flatMap((cat) => cat.skills);
-  const containerRef = useRef(null);
 
   const getSkillsToDisplay = () => {
     if (activeCategory === "All") return allSkills;
@@ -72,18 +60,38 @@ export function SkillsSection() {
 
   const displayedSkills = getSkillsToDisplay();
 
+  const getSkillLevel = (skill) => ((skill.length * 7) % 35 + 65);
+  const getColorSet = (index) => colorSets[index % colorSets.length];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+  };
+
   return (
-    <section id="skills" className="py-24 bg-slate-950 relative overflow-hidden" ref={containerRef}>
-      {/* Deep Space Background Effects */}
+    <section id="skills" className="py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+      {/* Subtle Background Elements */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-0 right-0 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[150px] pointer-events-none"
+        animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-0 w-[500px] h-[500px] bg-violet-100/40 rounded-full blur-[100px] pointer-events-none"
       />
       <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-600/20 rounded-full blur-[120px] pointer-events-none"
+        animate={{ x: [0, -30, 0], y: [0, 30, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-[100px] pointer-events-none"
       />
 
       <div className="container mx-auto px-6 text-center relative z-10">
@@ -93,13 +101,19 @@ export function SkillsSection() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <p className="text-sm font-semibold text-cyan-400 uppercase tracking-widest mb-3">Tech Arsenal</p>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-            My Toolkit
+          <p className="text-sm font-bold text-violet-600 uppercase tracking-widest mb-3">Tech Arsenal</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+            My Skills
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-            A chaotic but powerful ecosystem of technologies I use to build scalable systems. <br/>
-            <span className="text-violet-400 font-semibold">Grab and toss them around!</span>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "4rem" }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="h-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full mb-6 mx-auto"
+          />
+          <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+            A carefully curated stack of modern technologies for building robust, scalable, and high-performance applications.
           </p>
         </motion.div>
 
@@ -108,70 +122,76 @@ export function SkillsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-3 mb-16"
+          className="flex flex-wrap justify-center gap-2 mb-16"
         >
           {categories.map((category) => (
-            <motion.button
+            <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 backdrop-blur-md ${
+              className={`relative px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                 activeCategory === category
-                  ? "bg-white/10 text-white shadow-[0_0_20px_rgba(139,92,246,0.3)] border border-white/20"
-                  : "bg-white/5 text-slate-400 hover:text-white border border-transparent hover:border-white/10 hover:bg-white/10"
+                  ? "text-white shadow-md shadow-violet-200/50"
+                  : "text-slate-600 hover:text-violet-600 bg-white shadow-sm border border-slate-200 hover:border-violet-200"
               }`}
             >
+              {activeCategory === category && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
               {category}
-            </motion.button>
+            </button>
           ))}
         </motion.div>
 
-        {/* Scattered Drag Nodes Area */}
-        <div className="relative w-full min-h-[600px] flex flex-wrap justify-center items-center gap-6 p-8 rounded-3xl border border-white/5 bg-white/5 backdrop-blur-3xl overflow-hidden shadow-2xl">
-          {displayedSkills.map((skill, index) => {
-            const floatAnim = getRandomFloat(index);
-            return (
-              <motion.div
-                key={skill}
-                drag
-                dragConstraints={containerRef}
-                dragElastic={0.2}
-                dragTransition={{ bounceStiffness: 200, bounceDamping: 10 }}
-                whileDrag={{ scale: 1.2, zIndex: 50, cursor: "grabbing" }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1,
-                  y: floatAnim.y,
-                  x: floatAnim.x,
-                  rotate: floatAnim.rotate,
-                }}
-                transition={{ 
-                  opacity: { duration: 0.5, delay: index * 0.05 },
-                  scale: { type: "spring", stiffness: 200, damping: 10, delay: index * 0.05 },
-                  ...floatAnim.transition 
-                }}
-                className="relative group cursor-grab flex flex-col items-center justify-center p-6 bg-white/10 border border-white/20 rounded-3xl backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:bg-white/20 hover:border-white/40 transition-colors"
-                style={{
-                  transformStyle: "preserve-3d",
-                  perspective: 1000,
-                }}
-              >
-                {/* Glow behind icon */}
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10 flex items-center justify-center mb-3">
-                  {iconMap[skill] || <FaDatabase className="w-8 h-8 text-white" />}
-                </div>
-                
-                <h3 className="relative z-10 text-xs font-bold text-white text-center tracking-wide whitespace-nowrap">
-                  {skill}
-                </h3>
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* Skill Cards Grid */}
+        <motion.div 
+          layout
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-6xl mx-auto text-left"
+        >
+          <AnimatePresence mode="popLayout">
+            {displayedSkills.map((skill, index) => {
+              const colors = getColorSet(index);
+              return (
+                <motion.div
+                  layout
+                  variants={itemVariants}
+                  key={skill}
+                  whileHover={{ y: -6 }}
+                  className={`group relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:border-slate-200 z-10 hover:z-20`}
+                >
+                  <div className={`w-14 h-14 rounded-2xl ${colors.bg} ${colors.text} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 ${colors.glow}`}>
+                    {iconMap[skill] || <FaDatabase className="w-8 h-8 text-slate-400 group-hover:text-violet-500 transition-colors" />}
+                  </div>
+                  
+                  <h3 className="text-base font-bold text-slate-800 mb-4 group-hover:text-violet-600 transition-colors">{skill}</h3>
+                  
+                  <div className="w-full">
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Proficiency</span>
+                      <span className="text-xs font-bold text-slate-700">{getSkillLevel(skill)}%</span>
+                    </div>
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${getSkillLevel(skill)}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, delay: 0.3 + index * 0.05, ease: "easeOut" }}
+                        className={`h-full bg-gradient-to-r ${colors.bar} rounded-full`}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );
