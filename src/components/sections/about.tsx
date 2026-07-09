@@ -2,95 +2,108 @@
 
 import { motion } from "framer-motion";
 import { profileData } from "@/data";
-import { User2 } from "lucide-react";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
-};
+import { User2, MapPin, Mail, Phone } from "lucide-react";
 
 export function AboutSection() {
   return (
     <section id="about" className="py-24 bg-white relative overflow-hidden">
-      {/* Subtle animated bg element */}
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute -top-20 -right-20 w-96 h-96 border border-slate-100 rounded-full opacity-50"
+        transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+        className="absolute -top-32 -right-32 w-64 h-64 border border-violet-100/40 rounded-full"
       />
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeUp}
-          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-5xl mx-auto"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
-              <User2 className="w-6 h-6" />
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-violet-600 uppercase tracking-widest mb-3">Get to know me</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900" style={{ fontFamily: "var(--font-space-grotesk)" }}>
               About Me
             </h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "3rem" }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="h-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full mt-4 mx-auto"
+            />
           </div>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: "4rem" }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-blue-600 rounded-full mb-10 mx-auto"
-          />
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.08)" }}
-            className="bg-slate-50 border border-slate-100 shadow-sm rounded-2xl overflow-hidden transition-all duration-300"
-          >
-            <div className="p-8 md:p-12">
-              <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Main about text */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ y: -4 }}
+              className="md:col-span-2 bg-gradient-to-br from-slate-50 to-violet-50/30 border border-slate-100 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              <p className="text-lg text-slate-600 leading-relaxed">
                 {profileData.about}
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            {/* Quick info card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ y: -4 }}
+              className="bg-gradient-to-br from-violet-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg shadow-violet-200 hover:shadow-xl transition-all duration-300"
+            >
+              <h3 className="text-lg font-bold mb-6" style={{ fontFamily: "var(--font-space-grotesk)" }}>Quick Info</h3>
+              <div className="space-y-5">
+                {[
+                  { icon: <MapPin size={16} />, label: profileData.location },
+                  { icon: <Mail size={16} />, label: profileData.email },
+                  { icon: <Phone size={16} />, label: profileData.phone },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0">
+                      {item.icon}
+                    </div>
+                    <span className="text-sm text-violet-100 font-medium">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Stats row */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10"
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10"
           >
             {[
-              { label: "Projects", value: "3+" },
-              { label: "Tech Stack", value: "15+" },
-              { label: "Live Systems", value: "2" },
-              { label: "Certifications", value: "2" },
+              { label: "Projects Built", value: "3+", color: "from-violet-500 to-purple-500" },
+              { label: "Tech Stack", value: "15+", color: "from-indigo-500 to-blue-500" },
+              { label: "Live Systems", value: "2", color: "from-purple-500 to-pink-500" },
+              { label: "Certifications", value: "2", color: "from-blue-500 to-cyan-500" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 + i * 0.1 }}
-                whileHover={{ scale: 1.05, y: -3 }}
-                className="bg-white border border-slate-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="bg-white border border-slate-100 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.7 + i * 0.1 }}
-                  className="text-3xl font-bold text-blue-600 mb-1"
-                >
+                <p className={`text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${stat.color} mb-1`} style={{ fontFamily: "var(--font-space-grotesk)" }}>
                   {stat.value}
-                </motion.p>
-                <p className="text-sm text-slate-500 font-medium">{stat.label}</p>
+                </p>
+                <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>

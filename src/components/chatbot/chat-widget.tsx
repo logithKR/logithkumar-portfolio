@@ -128,7 +128,7 @@ export function ChatWidget() {
                       placeholder="Ask about my projects..."
                       className="bg-slate-50 border-slate-200 focus-visible:ring-blue-500 rounded-full px-4"
                     />
-                    <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="shrink-0 rounded-full w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white shadow-md transition-transform active:scale-95">
+                    <Button type="submit" size="icon" disabled={isLoading || !(input ?? '').trim()} className="shrink-0 rounded-full w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white shadow-md transition-transform active:scale-95">
                       <Send size={16} className="-ml-0.5" />
                     </Button>
                   </form>
