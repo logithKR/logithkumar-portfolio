@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/react": "^4.0.19",
     "@base-ui/react": "^1.6.0",
     "@langchain/community": "^1.1.29",
     "@langchain/core": "^1.2.1",
