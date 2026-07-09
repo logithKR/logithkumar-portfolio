@@ -9,7 +9,7 @@ export function ProjectsSection() {
   const [activeTab, setActiveTab] = useState("All");
   const categories = ["All", "Full Stack", "AI/ML"];
 
-  const getCategory = (project: (typeof projectsData)[0]) => {
+  const getCategory = (project) => {
     const stack = project.stack.join(" ").toLowerCase();
     if (stack.includes("langchain") || stack.includes("gemini") || stack.includes("stable diffusion") || stack.includes("or-tools")) return "AI/ML";
     return "Full Stack";

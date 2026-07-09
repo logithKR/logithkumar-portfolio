@@ -15,7 +15,7 @@ export function ChatWidget() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: "http://localhost:3001/api/chat",
   });
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -76,7 +76,7 @@ export function ChatWidget() {
                       <p>Ask me anything about his skills, projects, or experience!</p>
                     </div>
                   )}
-                  {messages.map((m: any) => (
+                  {messages.map((m) => (
                     <div
                       key={m.id}
                       className={`flex gap-3 \${m.role === 'user' ? 'justify-end' : 'justify-start'}`}

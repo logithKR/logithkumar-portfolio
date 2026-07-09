@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { skillsData } from "@/data";
 import { Code2, Database, Layout, Terminal, Cpu, Wrench } from "lucide-react";
 
-const iconMap: Record<string, React.ReactNode> = {
+const iconMap = {
   "Python": <Terminal className="w-7 h-7" />,
   "JavaScript": <Code2 className="w-7 h-7" />,
   "SQL": <Database className="w-7 h-7" />,
@@ -57,8 +57,8 @@ export function SkillsSection() {
 
   const displayedSkills = getSkillsToDisplay();
 
-  const getSkillLevel = (skill: string) => ((skill.length * 7) % 35 + 65);
-  const getColorSet = (index: number) => colorSets[index % colorSets.length];
+  const getSkillLevel = (skill) => ((skill.length * 7) % 35 + 65);
+  const getColorSet = (index) => colorSets[index % colorSets.length];
 
   return (
     <section id="skills" className="py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">

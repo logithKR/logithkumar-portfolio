@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const { google } = require('@ai-sdk/google');
+const { streamText } = require('ai');
 
 dotenv.config();
 
