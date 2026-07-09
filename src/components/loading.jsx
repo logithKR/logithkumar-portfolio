@@ -6,8 +6,8 @@ export function LoadingScreen({ onComplete }) {
 
   useEffect(() => {
     // Simulate loading progress
-    const duration = 1500;
-    const interval = 15;
+    const duration = 400; // Reduced from 1500ms to 400ms so it feels snappy
+    const interval = 10;
     const steps = duration / interval;
     let currentStep = 0;
 
@@ -17,7 +17,7 @@ export function LoadingScreen({ onComplete }) {
       
       if (currentStep >= steps) {
         clearInterval(timer);
-        setTimeout(onComplete, 400); // Wait for final progress bar render
+        setTimeout(onComplete, 100); // Wait for final progress bar render
       }
     }, interval);
 

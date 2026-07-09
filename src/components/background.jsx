@@ -1,64 +1,145 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 export function Background() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
+    let particles = [];
+    
+    // Configuration
+    const particleCount = 80; // Number of dots
+    const connectionDistance = 150; // How close dots need to be to connect
+    const mouseDistance = 200; // How close mouse needs to be to connect
+    
+    // Colors that match the light theme
+    const dotColor = "rgba(139, 92, 246, 0.4)"; // Violet-500
+    const lineColor = "rgba(167, 139, 250, 0.15)"; // Violet-400 with low opacity
+
+    let mouse = { x: null, y: null };
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const handleMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = null;
+      mouse.y = null;
+    };
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.8; // Very slow movement
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 1.5 + 1;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor;
+        ctx.fill();
+      }
+    }
+
+    const initParticles = () => {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        // Check connections between particles
+        for (let j = i; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            ctx.beginPath();
+            ctx.strokeStyle = lineColor;
+            // Fade line based on distance
+            ctx.globalAlpha = 1 - (distance / connectionDistance);
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+
+        // Check connection to mouse
+        if (mouse.x != null && mouse.y != null) {
+          const dx = particles[i].x - mouse.x;
+          const dy = particles[i].y - mouse.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < mouseDistance) {
+            ctx.beginPath();
+            ctx.strokeStyle = lineColor;
+            ctx.globalAlpha = 1 - (distance / mouseDistance);
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+    
+    handleResize();
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden bg-slate-50">
-      
-      {/* Animated Dot Matrix Pattern */}
-      <motion.div 
-        className="absolute inset-[-50%]"
-        style={{
-          backgroundImage: `radial-gradient(#cbd5e1 1px, transparent 1px)`,
-          backgroundSize: '24px 24px',
-        }}
-        animate={{
-          x: [0, -24],
-          y: [0, -24],
-        }}
-        transition={{
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 3,
-          ease: "linear"
-        }}
+    <div className="fixed inset-0 z-0 pointer-events-none bg-slate-50">
+      <canvas 
+        ref={canvasRef} 
+        className="block w-full h-full"
       />
-
-      {/* Floating Gradient Orbs */}
-      <motion.div
-        animate={{ 
-          scale: [1, 1.2, 1], 
-          x: [0, 50, 0],
-          y: [0, -30, 0],
-          opacity: [0.4, 0.6, 0.4] 
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-violet-200/50 rounded-full blur-[120px] mix-blend-multiply"
-      />
-      
-      <motion.div
-        animate={{ 
-          scale: [1, 1.3, 1], 
-          x: [0, -40, 0],
-          y: [0, 40, 0],
-          opacity: [0.3, 0.5, 0.3] 
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] bg-cyan-200/50 rounded-full blur-[120px] mix-blend-multiply"
-      />
-      
-      <motion.div
-        animate={{ 
-          scale: [1, 1.1, 1], 
-          x: [0, 30, 0],
-          y: [0, 50, 0],
-          opacity: [0.3, 0.4, 0.3] 
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-        className="absolute top-[40%] left-[30%] w-[500px] h-[500px] bg-indigo-200/40 rounded-full blur-[100px] mix-blend-multiply"
-      />
-
-      {/* Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
+      {/* Super faint static gradient so the background isn't perfectly flat white */}
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-50/30 via-transparent to-indigo-50/30" />
     </div>
   );
 }
