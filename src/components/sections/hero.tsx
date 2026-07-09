@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { profileData } from "@/data";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Code2, Link as LinkIcon, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -80,8 +80,8 @@ export function HeroSection() {
           transition={{ duration: 1, delay: 1 }}
           className="mt-12 flex gap-6"
         >
-          <SocialLink href={profileData.github} icon={<Github />} label="GitHub" />
-          <SocialLink href={profileData.linkedin} icon={<Linkedin />} label="LinkedIn" />
+          <SocialLink href={profileData.github} icon={<Code2 />} label="GitHub" />
+          <SocialLink href={profileData.linkedin} icon={<LinkIcon />} label="LinkedIn" />
           <SocialLink href={`mailto:${profileData.email}`} icon={<Mail />} label="Email" />
         </motion.div>
       </div>

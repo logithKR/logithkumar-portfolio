@@ -5,7 +5,7 @@ import { projectsData } from "@/data";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink } from "lucide-react";
+import { Code2, ExternalLink } from "lucide-react";
 
 export function ProjectsSection() {
   return (
@@ -62,7 +62,7 @@ export function ProjectsSection() {
                     {project.code && (
                       <Button variant="ghost" size="sm" asChild className="hover:bg-primary/20 hover:text-primary">
                         <a href={`https://${project.code}`} target="_blank" rel="noopener noreferrer">
-                          <Github className="w-4 h-4 mr-2" /> Code
+                          <Code2 className="w-4 h-4 mr-2" /> Code
                         </a>
                       </Button>
                     )}
